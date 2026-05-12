@@ -1,2 +1,3 @@
 # Animatch
-Anime suggestions generator
+
+Anime suggestions generator. 
