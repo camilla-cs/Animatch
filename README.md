@@ -1,3 +1,3 @@
 # Animatch
 
-Anime suggestions generator. 
+Anime suggestions generator made with React + Vite. 

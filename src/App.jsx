@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { BrowserRouter, Route,Routes } from 'react-router-dom';
 import './App.css'
 import AnimeSearch from './components/animeSearch'
 import './components/animeSearch.css'
-import AnimeResults from './components/animeResults'
 
 function App() {
   return (
-    <div className="App">
-    
-        <AnimeSearch/>
-    </div>
+   
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AnimeSearch />} />
+      </Routes>
+    </BrowserRouter>  
+
+
   )
 }
 
