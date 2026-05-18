@@ -67,25 +67,39 @@ function AnimeSearch () {
 
    
     const fetchRecommendations = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError(null);
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-        try {
-           const response = await fetch(`https://api.jikan.moe/v4/anime/${searchQuery}/recommendations`);
-            if (!response.ok) {
-                throw new Error ("Failed to fetch anime recommendations"); 
-            }
+    try {
+        // STEP 1: Search for the anime to get the correct MAL ID
+        const searchRes = await fetch(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=1`);
+        const searchData = await searchRes.json();
 
-            const data = await response.json(); 
-            setRecommendations(data.data || []); 
-        } catch (error) {
-            setError (error.message); 
-
-        } finally {
-            setLoading(false); 
+        if (!searchData.data || searchData.data.length === 0) {
+            throw new Error("Anime not found. Please check the spelling.");
         }
-    }; 
+
+        const animeId = searchData.data[0].mal_id;
+
+        // STEP 2: Use that ID to get recommendations
+        const recRes = await fetch(`https://api.jikan.moe/v4/anime/${animeId}/recommendations`);
+        
+        if (!recRes.ok) {
+            throw new Error("Failed to fetch recommendations for this title.");
+        }
+
+        const recData = await recRes.json();
+        
+        // Jikan returns an array in data.data
+        setRecommendations(recData.data || []);
+
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <div>
