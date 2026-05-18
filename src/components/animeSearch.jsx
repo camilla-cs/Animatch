@@ -117,7 +117,8 @@ function AnimeSearch () {
            
             <div className="discover-wrapper">
                 <div className="discover-form-container">
-
+                    <h1> Animatch</h1>
+                    
                     <h3>🧿 𝒟𝒾𝓈𝒸ℴ𝓋ℯ𝓇 𝒜𝓃𝒾𝓂ℯ 🍥</h3>
 
                     {/* search anime by title */}
