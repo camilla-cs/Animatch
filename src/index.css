@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 
+
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;  
     background: linear-gradient(to right, #FBCFE8, #B7DCFF);
 }
 
@@ -23,3 +23,59 @@ html, body {
   box-sizing: border-box;
 }
 
+.discover-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+   
+}
+
+.anime-results {
+    display:flex; 
+    flex-wrap:wrap;
+    gap:1em;
+    justify-content:center;
+    margin-top:1em;
+}
+
+
+.anime-card {
+    background-color: #F0FBCB ;
+    border-radius:1em;
+    padding:15px;
+    width:15em;
+    text-align: center;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    
+}
+
+.anime-card img {
+    width:100%; 
+    border-radius: 8px;
+    height:200px;
+    object-fit: cover;
+}
+
+@media screen and (max-width:1000px) {
+    .discover-wrapper {
+        flex-direction: column;
+    }
+
+
+
+    .discover-nav {
+        width: 100%;
+        border-right:none; 
+        align-items: center;
+        overflow: auto;
+    }
+
+    .discover-form-container{
+        width: 90%;
+    }
+    
+}
