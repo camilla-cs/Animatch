@@ -66,33 +66,43 @@ function AnimeSearch () {
     }; 
 
    
-    const fetchRecommendations = async (e) => {
+   const fetchRecommendations = async (e) => {
     e.preventDefault();
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return;
+
     setLoading(true);
     setError(null);
+    setRecommendations([]);
 
     try {
-        // STEP 1: Search for the anime to get the correct MAL ID
-        const searchRes = await fetch(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=1`);
+        // Step 1: Get top 10 results
+        const searchRes = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=10`);
         const searchData = await searchRes.json();
 
         if (!searchData.data || searchData.data.length === 0) {
-            throw new Error("Anime not found. Please check the spelling.");
+            throw new Error("Anime not found.");
         }
 
-        const animeId = searchData.data[0].mal_id;
+        // Step 2: Sort by 'members'. This pushes the main "Frieren" to the top
+        // and pushes "Ougonkyou-hen" or "Specials" to the bottom.
+        const sorted = searchData.data.sort((a, b) => (b.members || 0) - (a.members || 0));
 
-        // STEP 2: Use that ID to get recommendations
-        const recRes = await fetch(`https://api.jikan.moe/v4/anime/${animeId}/recommendations`);
-        
-        if (!recRes.ok) {
-            throw new Error("Failed to fetch recommendations for this title.");
-        }
+        // Step 3: Pick the most popular 'TV' series from the list
+        const bestMatch = sorted.find(anime => anime.type === "TV") || sorted[0];
 
+        // Step 4: Delay for Rate Limiting
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Step 5: Get the thematic recommendations
+        const recRes = await fetch(`https://api.jikan.moe/v4/anime/${bestMatch.mal_id}/recommendations`);
         const recData = await recRes.json();
-        
-        // Jikan returns an array in data.data
-        setRecommendations(recData.data || []);
+
+        if (!recData.data || recData.data.length === 0) {
+            setError(`No thematic recommendations found for "${bestMatch.title}".`);
+        } else {
+            setRecommendations(recData.data);
+        }
 
     } catch (error) {
         setError(error.message);
@@ -100,6 +110,7 @@ function AnimeSearch () {
         setLoading(false);
     }
 };
+
 
     return (
         <div>
@@ -207,12 +218,12 @@ function AnimeSearch () {
                         </select>
                         
                             
-                        <button className="filter-button" type="filter" onClick={handleFilter}>Filter</button>
+                        <button className="filter-button" type="filter" onClick={handleFilter}>*ੈ✩‧₊˚༺ 𝔉𝔦𝔩𝔱𝔢𝔯 ༻*ੈ✩‧₊˚</button>
                     </form>
                 
                     <form onSubmit={fetchRecommendations}>
                         <input className="input-button" type="text" placeholder="Type anime title for recommendations ..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
-                        <button className="recs-button"type="recommendations">Get recommendations ✨</button>
+                        <button className="recs-button"type="recommendations">·:*¨༺ ♱ 𝓰𝓮𝓽 ✮ 𝓻𝓮𝓬𝓸𝓶𝓶𝓮𝓷𝓭𝓪𝓽𝓲𝓸𝓷𝓼 ♱ ༻¨*:·</button>
                     </form>
                 
                 
@@ -245,17 +256,21 @@ function AnimeSearch () {
                     </div>
 
                     <div className="anime-results">
-                            {recommendations.length > 0 &&
-                                recommendations.map((anime, index) => (
-                                    <div key={`${anime.entry.mal_id}-${index}`} className="anime-card">
-                                        <img src={anime.entry.images.jpg.image_url} alt={anime.entry.title} />
-                                        <h4>{anime.entry.title}</h4>
-                                        
-                                        
-
-                                    </div>
-                                ))}
-                    </div>
+                        {recommendations.map((anime, index) => (
+                            <div key={`${anime.entry.mal_id}-${index}`} className="anime-card">
+                                <img src={anime.entry.images.jpg.image_url} alt={anime.entry.title} />
+                                <div className="anime-info">
+                                    <h4>{anime.entry.title}</h4>
+                                    {/* This is the "Theme/Genre" explanation from the community */}
+                                    {anime.content && (
+                                        <p className="recommendation-reason">
+                                            <em>{anime.content.length > 150 ? anime.content.substring(0, 150) + "..." : anime.content}</em>
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+    ))}
+</div>
 
 
 
