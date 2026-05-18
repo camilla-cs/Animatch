@@ -31,6 +31,14 @@ html, body {
    
 }
 
+.discover-form-container {
+    
+    display:flex;
+    flex-direction: column;
+    text-align: left;
+    gap:0.4em;
+}
+
 h1{
     font-family: "Pixelify Sans", sans-serif;
     font-optical-sizing: auto;

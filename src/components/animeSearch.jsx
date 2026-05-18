@@ -136,7 +136,7 @@ function AnimeSearch () {
 
                     <form onSubmit={handleFilter}>
                     
-                        <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+                        <select value={genre} style={{ fontFamily: "Pixelify Sans", size: "16px" }} onChange={(e) => setGenre(e.target.value)}>
                             <option value="">Select genre</option>
                             <option value="1">Action</option>
                             <option value="2">Adventure</option>
@@ -223,7 +223,7 @@ function AnimeSearch () {
                     </form>
                 
                     <form onSubmit={fetchRecommendations}>
-                        <input className="input-button" type="text" placeholder="Type anime title for recommendations ..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+                        <input className="input-button" type="text" placeholder="Type anime title..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
                         <button className="recs-button"type="recommendations">·:*¨༺ ♱ 𝓰𝓮𝓽 ✮ 𝓻𝓮𝓬𝓸𝓶𝓶𝓮𝓷𝓭𝓪𝓽𝓲𝓸𝓷𝓼 ♱ ༻¨*:·</button>
                     </form>
                 
