@@ -1,6 +1,9 @@
 import { BrowserRouter, Route,Routes } from 'react-router-dom';
 import './App.css'
 import AnimeSearch from './components/animeSearch'
+import React from 'react';
+import '../src/index.css';
+
 
 
 function App() {

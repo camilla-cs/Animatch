@@ -3,8 +3,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import {Link} from "react-router-dom"
-
+import {Link} from "react-router-dom";
+import '../components/animeSearch.css';
 
 
 
@@ -278,8 +278,8 @@ function AnimeSearch () {
             </div>
 
 
-            
-        </div>
+        </div>    
+        
     ); 
 }
 
