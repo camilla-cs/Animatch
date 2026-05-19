@@ -7,4 +7,4 @@ The website is deployed on netlify and to use it click on the following link [An
 
 This time, I wanted to make things easier and available for users so I remove the sign up and log in process, there's only the discovery page. 
 
-
+![website-info](/image%201.png)
