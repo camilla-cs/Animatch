@@ -11,7 +11,7 @@ import '../components/animeSearch.css';
 function AnimeSearch () {
     const [searchQuery, setSearchQuery] = useState("");
     const [genre, setGenre] = useState(""); 
-    const[year, setYear]= useState("");  
+    const [year, setYear]= useState("");  
     const [animeList, setAnimeList] = useState([]); 
     const [recommendations, setRecommendations] = useState([]); 
     const [error, setError] = useState(null);
@@ -23,6 +23,7 @@ function AnimeSearch () {
         setLoading (true); 
         setError(null); 
 
+        setRecommendations([]); 
         try {
             const response = await fetch(`https://api.jikan.moe/v4/anime?q=${searchQuery}&limit=10`);
             if (!response.ok) {
@@ -31,6 +32,8 @@ function AnimeSearch () {
 
             const data = await response.json(); 
             setAnimeList (data.data || []); 
+             setSearchQuery("");
+
         } catch (error) {
             setError (error.message);
         } finally {
@@ -44,6 +47,7 @@ function AnimeSearch () {
     setLoading(true);
     setError(null);
 
+    setRecommendations([]);
     try {
         
           let url = `https://api.jikan.moe/v4/anime?`;
@@ -73,6 +77,7 @@ function AnimeSearch () {
 
     setLoading(true);
     setError(null);
+    setAnimeList([]);
     setRecommendations([]);
 
     try {
@@ -103,6 +108,8 @@ function AnimeSearch () {
         } else {
             setRecommendations(recData.data);
         }
+
+        setSearchQuery("");
 
     } catch (error) {
         setError(error.message);
@@ -262,16 +269,10 @@ function AnimeSearch () {
                                 <img src={anime.entry.images.jpg.image_url} alt={anime.entry.title} />
                                 <div className="anime-info">
                                     <h4>{anime.entry.title}</h4>
-                                    {/* This is the "Theme/Genre" explanation from the community */}
-                                    {anime.content && (
-                                        <p className="recommendation-reason">
-                                            <em>{anime.content.length > 150 ? anime.content.substring(0, 150) + "..." : anime.content}</em>
-                                        </p>
-                                    )}
                                 </div>
                             </div>
     ))}
-</div>
+    </div>
 
 
 
